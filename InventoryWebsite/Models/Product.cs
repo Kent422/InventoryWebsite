@@ -26,6 +26,6 @@ namespace InventoryWebsite.Models
         public Category? Category { get; set; } // navigation property
 
 
-        //public ICollection<Stock> Stocks { get; set; } // optional reverse nav
+        ///public ICollection<Stock> Stocks { get; set; } // optional reverse nav
     }
 }
