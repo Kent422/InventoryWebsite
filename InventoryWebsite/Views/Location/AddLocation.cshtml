@@ -1,0 +1,33 @@
+﻿@model InventoryWebsite.Models.Location
+
+@{
+    ViewData["Title"] = "Add Location";
+}
+
+<h1>Add Location</h1>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+<form asp-action="AddLocation" method="post">
+    @Html.AntiForgeryToken() <!-- Token to prevent CSRF -->
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="mt-4 d-flex justify-content-center gap-3">
+        <button type="submit" class="btn btn-primary px-5 py-2">SUBMIT</button>
+        <a asp-action="ViewLocation" class="btn btn-secondary px-5 py-2">CANCEL</a>
+    </div>
+</form>
+
+

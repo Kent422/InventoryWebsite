@@ -1,0 +1,38 @@
+﻿@model List<InventoryWebsite.Models.Stock>
+
+<h1>List of Product Stock</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>StockID</th>
+            <th>ProductID</th>
+            <th>ProductName</th>
+            <th>Quantity</th>
+            <th>ExpirationDate</th>
+            <th>Supplier</th>
+            <th>DateRecieved</th>
+            <th>Actions</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var stock in Model)
+        {
+            <tr>
+                <td>@stock.StockID</td>
+                <td>@stock.ProductID</td>
+                <td>@stock.Quantity</td>
+                <td>@stock.ExpirationDate</td>
+                <td>@stock.Supplier</td>
+                <td>@stock.DateRecieved</td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@stock.StockID">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@stock.StockID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="AddProductStock" class=" btn btn-primary">Add Product Stock</a>
