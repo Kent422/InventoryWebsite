@@ -23,9 +23,10 @@ namespace InventoryWebsite.Models
         [Required(ErrorMessage = "The Category field is required.")]
         public int CategoryID { get; set; }  // FK to Category
 
+
         public Category? Category { get; set; } // navigation property
 
 
-        ///public ICollection<Stock> Stocks { get; set; } // optional reverse nav
+        public Stock? Stocks { get; set; } // optional reverse nav
     }
 }

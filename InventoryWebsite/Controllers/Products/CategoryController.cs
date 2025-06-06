@@ -36,5 +36,68 @@ namespace InventoryWebsite.Controllers.Products
             }
             return View(category);
         }
+
+        // GET: /Category/Edit/5
+        public async Task<IActionResult> EditCategory(int categoryID)
+        {
+            var category = await _context.Category.FindAsync(categoryID);
+            if (category == null)
+                return NotFound();
+            return View(category);
+        }
+
+        // POST: /Categories/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditCategory(int categoryID, Category category)
+        {
+            if (categoryID != category.CategoryID)
+                return NotFound();
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(category);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index"); // or your list view
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_context.Category.Any(c => c.CategoryID == categoryID))
+                        return NotFound();
+                    else
+                        throw;
+                }
+            }
+
+            return View(category);
+        }
+
+
+        // GET: /Category/Delete/5
+        public async Task<IActionResult> DeleteCategory(int CategoryID)
+        {
+            var category = await _context.Category.FindAsync(CategoryID);
+            if (category == null)
+                return NotFound();
+
+            return View(category); // Shows confirmation page
+        }
+
+        // POST: /Student/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int categoryID)
+        {
+            var category = await _context.Category.FindAsync(categoryID);
+            if (category == null)
+                return NotFound();
+
+            _context.Category.Remove(category);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
     }
 }

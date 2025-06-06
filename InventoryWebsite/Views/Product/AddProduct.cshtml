@@ -4,67 +4,78 @@
     ViewData["Title"] = "Add Product";
 }
 
-<h1>Add Product</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="mb-4 text-primary text-center">Add New Product</h2>
 
-<!-- Display validation and database error messages -->
-@if (TempData["ValidationErrors"] != null)
-{
-    <div class="alert alert-danger" style="white-space: pre-wrap;">
-        @Html.Raw(TempData["ValidationErrors"])
-    </div>
-}
+            <!-- Alert messages -->
+            @if (TempData["ValidationErrors"] != null)
+            {
+                <div class="alert alert-danger" style="white-space: pre-wrap;">
+                    @Html.Raw(TempData["ValidationErrors"])
+                </div>
+            }
 
-@if (TempData["DbError"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["DbError"]
-    </div>
-}
+            @if (TempData["DbError"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["DbError"]
+                </div>
+            }
 
-<form asp-action="AddProduct" method="post">
-    @Html.AntiForgeryToken()
+            <form asp-action="AddProduct" method="post" class="needs-validation" novalidate>
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <!-- Product ID (Read-only after generation) -->
+                @if (!string.IsNullOrEmpty(Model?.ProductID))
+                {
+                    <div class="mb-3">
+                        <label asp-for="ProductID" class="form-label">Product ID</label>
+                        <input asp-for="ProductID" class="form-control" readonly />
+                        <span asp-validation-for="ProductID" class="text-danger"></span>
+                    </div>
+                }
 
-    @if (!string.IsNullOrEmpty(Model?.ProductID))
-    {
-        <div class="form-group">
-            <label asp-for="ProductID" class="control-label">Product ID</label>
-            <input asp-for="ProductID" class="form-control" readonly />
-            <span asp-validation-for="ProductID" class="text-danger"></span>
+                <!-- Product Name -->
+                <div class="mb-3">
+                    <label asp-for="ProductName" class="form-label">Product Name</label>
+                    <input asp-for="ProductName" class="form-control" placeholder="Enter product name" />
+                    <span asp-validation-for="ProductName" class="text-danger"></span>
+                </div>
+
+                <!-- Price -->
+                <div class="mb-3">
+                    <label asp-for="Price" class="form-label">Price</label>
+                    <input asp-for="Price" type="number" step="0.01" class="form-control" placeholder="0.00" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <!-- Capacity -->
+                <div class="mb-3">
+                    <label asp-for="Capacity" class="form-label">Capacity</label>
+                    <input asp-for="Capacity" type="number" class="form-control" placeholder="Enter quantity or volume" />
+                    <span asp-validation-for="Capacity" class="text-danger"></span>
+                </div>
+
+                <!-- Category -->
+                <div class="mb-4">
+                    <label asp-for="CategoryID" class="form-label">Category</label>
+                    <select asp-for="CategoryID" class="form-select" asp-items="ViewBag.CategoryList">
+                        <option value="">-- Select Category --</option>
+                    </select>
+                    <span asp-validation-for="CategoryID" class="text-danger"></span>
+                </div>
+
+                <!-- Submit -->
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-lg">Register Product</button>
+                </div>
+            </form>
         </div>
-    }
-
-    <div class="form-group">
-        <label asp-for="ProductName" class="control-label">Product Name</label>
-        <input asp-for="ProductName" class="form-control" />
-        <span asp-validation-for="ProductName" class="text-danger"></span>
     </div>
-
-    <div class="form-group">
-        <label asp-for="Price" class="control-label">Price</label>
-        <input asp-for="Price" class="form-control" type="number" step="0.01" />
-        <span asp-validation-for="Price" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Capacity" class="control-label">Capacity</label>
-        <input asp-for="Capacity" class="form-control" type="number" />
-        <span asp-validation-for="Capacity" class="text-danger"></span>
-    </div>
-
-    <!-- Category Dropdown -->
-    <div class="form-group">
-        <label asp-for="CategoryID" class="control-label"></label>
-        <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryList">
-            <option value="">-- Select Category --</option>
-        </select>
-        <span asp-validation-for="CategoryID" class="text-danger"></span>
-    </div>
-
-
-    <button type="submit" class="btn btn-primary">Register Product</button>
-</form>
+</div>
 
 @section Scripts {
     @{

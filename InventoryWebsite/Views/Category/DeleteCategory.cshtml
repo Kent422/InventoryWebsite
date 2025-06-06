@@ -1,0 +1,11 @@
+﻿@model InventoryWebsite.Models.Category
+
+<h1>Delete Category</h1>
+
+<p>Are you sure you want to delete the Category named <strong>@Model.CategoryName</strong>?</p>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="CategoryID" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" asp-controller="Category" class="btn btn-secondary">Cancel</a>
+</form>

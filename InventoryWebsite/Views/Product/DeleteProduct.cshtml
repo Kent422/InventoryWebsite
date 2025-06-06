@@ -1,0 +1,11 @@
+﻿@model InventoryWebsite.Models.Product
+
+<h1>Delete Product</h1>
+
+<p>Are you sure you want to delete the Product named <strong>@Model.ProductName</strong>?</p>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="ProductID" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="ViewProduct" asp-controller="Product" class="btn btn-secondary">Cancel</a>
+</form>

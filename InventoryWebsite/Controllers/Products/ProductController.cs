@@ -123,6 +123,65 @@ namespace InventoryWebsite.Controllers.Products
             return View(product);
         }
 
+        // GET: /Products/Edit/5
+        public async Task<IActionResult> EditProduct(string productID)
+        {
+            var product = await _context.Product.FindAsync(productID);
+            if (product == null)
+                return NotFound();
+            return View(product);
+        }
 
+        // POST: /Products/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditProduct(string productID, Product product)
+        {
+            if (productID != product.ProductID)
+                return NotFound();
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(product);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("ViewProduct");
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_context.Product.Any(p => p.ProductID == productID))
+                        return NotFound();
+                    else
+                        throw;
+                }
+            }
+            return View(product);
+        }
+
+        // GET: /Student/Delete/5
+        public async Task<IActionResult> DeleteProduct(string ProductID)
+        {
+            var student = await _context.Product.FindAsync(ProductID);
+            if (student == null)
+                return NotFound();
+
+            return View(student); // Shows confirmation page
+        }
+
+        // POST: /Student/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string productID)
+        {
+            var product = await _context.Product.FindAsync(productID);
+            if (product == null)
+                return NotFound();
+
+            _context.Product.Remove(product);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("ViewProduct");
+        }
     }
 }
